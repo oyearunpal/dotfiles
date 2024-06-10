@@ -1,0 +1,5 @@
+require("arun.options")
+require("arun.keymaps")
+require("arun.lazy")
+require("arun.remap")
+-- print("hello")
