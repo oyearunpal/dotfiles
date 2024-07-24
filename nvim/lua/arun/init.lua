@@ -45,6 +45,12 @@ autocmd({"BufWritePre"}, {
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
+autocmd("FileType", {
+  pattern = {"markdown", "text"},
+  callback = function()
+    vim.opt_local.spell = true
+  end
+})
 
 autocmd('LspAttach', {
     group = ThePrimeagenGroup,
