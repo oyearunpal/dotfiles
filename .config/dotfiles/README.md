@@ -1,4 +1,3 @@
-
 ### Manage Dotfiles with a Bare Git Repo
 
 #### 1. **Create a bare Git repository**
@@ -53,3 +52,4 @@ git clone --bare git@github.com:yourusername/dotfiles.git $HOME/.dotfiles
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 dotfiles checkout
 ```
+
