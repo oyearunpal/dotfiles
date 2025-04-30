@@ -193,5 +193,5 @@ solt ()
 # Set up fzf key bindings and fuzzy completion
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.bash_variable ] && source ~/.bash_variable
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
+[ -f ~/.bash_function ] && source ~/.bash_function
+source ~/.bash_completion
