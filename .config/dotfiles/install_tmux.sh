@@ -1,3 +1,3 @@
-sudo apt install tmux
+sudo apt install -y tmux
 # Install tmux plugins manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

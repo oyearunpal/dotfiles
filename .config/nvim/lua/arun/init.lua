@@ -64,6 +64,9 @@ autocmd('LspAttach', {
     end
 })
 
-vim.g.netrw_browse_split = 0
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
+-- -- Show errors and warnings in a floating window
+-- vim.api.nvim_create_autocmd("CursorHold", {
+--     callback = function()
+--         vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+--     end,
+-- })

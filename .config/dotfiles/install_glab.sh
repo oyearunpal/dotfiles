@@ -12,9 +12,11 @@ install_glab_linux() {
   GLAB_URL="https://gitlab.com/gitlab-org/cli/-/releases/${GLAB_VERSION}/downloads/glab_${GLAB_VERSION#v}_linux_amd64.tar.gz"
   echo $GLAB_URL
   curl -L $GLAB_URL -o glab.tar.gz
-  tar -xvzf glab.tar.gz
-  sudo mv bin/glab /usr/local/bin/
+  mkdir -p glab
+  tar -xvzf glab.tar.gz -C glab
+  sudo mv glab/bin/glab /usr/local/bin/
   rm glab.tar.gz
+  rm -rf glab
 }
 
 # Function to install glab on macOS using Homebrew

@@ -8,6 +8,7 @@ then
     # Download and install csvtk if not already installed
     wget -q https://github.com/shenwei356/csvtk/releases/download/v0.33.0/csvtk_linux_amd64.tar.gz
     tar -xvf csvtk_linux_amd64.tar.gz
+    rm csvtk_linux_amd64.tar.gz
     sudo mv csvtk /usr/local/bin
     echo "Successfully installed csvtk"
 else
