@@ -195,3 +195,6 @@ solt ()
 [ -f ~/.bash_variable ] && source ~/.bash_variable
 [ -f ~/.bash_function ] && source ~/.bash_function
 source ~/.bash_completion
+
+# # Auto-Warpify
+# [[ "$-" == *i* ]] && printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash", "uname": "Linux" }}œ'

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Check if the server is in the known_hosts file
+SERVER=$1
+if ! ssh -q -o BatchMode=yes $SERVER exit; then
+    echo "First time connection or no key found, copying SSH key..."
+    ssh-copy-id -i ~/.ssh/id_rsa.pub $SERVER
+fi
+
+# Now proceed with the actual SSH connection
+ssh $SERVER
+

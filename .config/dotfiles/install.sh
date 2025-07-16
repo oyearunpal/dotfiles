@@ -128,6 +128,7 @@ gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 # Install Vimium for Chrome via extension management or via their site:
 # https://chrome.google.com/webstore/detail/vimium/kdckgpopklljmjmijlmjlbbhfclgnpnm
 echo -e "${YELLOW}Install Vimium manually from the Chrome Web Store: https://chrome.google.com/webstore/detail/vimium/kdckgpopklljmjmijlmjlbbhfclgnpnm${NC}"
+echo -e "${YELLOW}Install docker from https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository${NC}"
 # # Reboot to apply all changes - COMMENTED OUT
 # echo -e "${YELLOW}Rebooting system to apply changes...${NC}"
 # sudo reboot
