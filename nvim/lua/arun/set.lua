@@ -10,7 +10,7 @@ vim.opt.expandtab = true
 
 vim.opt.smartindent = true
 
-vim.opt.wrap = false
+-- vim.opt.wrap = false
 
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -36,4 +36,4 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
 vim.opt.clipboard = 'unnamedplus'
-
+vim.opt.conceallevel = 2
