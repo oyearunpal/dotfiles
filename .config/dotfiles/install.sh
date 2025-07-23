@@ -20,7 +20,7 @@ sudo apt update && sudo apt upgrade -y
 log_status $? "System update completed"
 
 # Install required packages (including gcc, g++ for C++ builds)
-sudo apt install -y tmux git cmake ninja-build docker.io curl wget python3-pip google-chrome-stable htop \
+sudo apt install -y tmux git cmake ninja-build docker.io curl wget python3-pip google-chrome-stable htop npm \
     gcc g++ meson build-essential python3.12-venv
 
 log_status $? "Required packages installed"
