@@ -41,3 +41,5 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.opt.laststatus = 3
 
+-- Set LSP log level to only show errors
+vim.lsp.set_log_level("ERROR")

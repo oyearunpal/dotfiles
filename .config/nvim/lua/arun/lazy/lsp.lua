@@ -27,7 +27,8 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
-                "pylsp"
+                "pylsp",
+                "clangd"
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -66,6 +67,29 @@ return {
                                 }
                             }
                         }
+                    }
+                end,
+
+                ["clangd"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.clangd.setup {
+                        capabilities = capabilities,
+                        cmd = {
+                            "clangd",
+                            "--background-index",
+                            "--clang-tidy",
+                            "--header-insertion=iwyu",
+                            "--completion-style=detailed",
+                            "--function-arg-placeholders=1",
+                            "--fallback-style=llvm",
+                            "--log=error",  -- Only log errors, not info messages
+                        },
+                        init_options = {
+                            clangdFileStatus = true,
+                            usePlaceholders = true,
+                            completeUnimported = true,
+                            semanticHighlighting = true,
+                        },
                     }
                 end,
             }
