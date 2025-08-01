@@ -104,7 +104,7 @@ export MANPAGER="nvim +Man!"
 function tmux_prod_log {
 	# Only run if inside tmux
 	[ -z "$TMUX" ] && return 0
-	
+
 	if [ -n "$(tmux list-sessions 2> /dev/null)" ]; then
 
 		log_dir="$HOME/.tmux/logs"
@@ -195,9 +195,8 @@ solt ()
 
 # Set up fzf key bindings and fuzzy completion
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 [ -f ~/.bash_variable ] && source ~/.bash_variable
 [ -f ~/.bash_function ] && source ~/.bash_function
 [ -f ~/.bash_completion ] && source ~/.bash_completion
 
-# # Auto-Warpify
-# [[ "$-" == *i* ]] && printf 'P$f{"hook": "SourcedRcFileForWarp", "value": { "shell": "bash", "uname": "Linux" }}�'

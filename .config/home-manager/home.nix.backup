@@ -1,0 +1,122 @@
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  nixGL,
+  ...
+}: {
+  nixGL = {
+    packages = nixGL.packages; # you must set this or everything will be a noop
+    defaultWrapper = "mesa"; # choose from nixGL options depending on GPU
+  };
+
+  home = {
+    username = "irage";
+    homeDirectory = "/home/irage";
+    stateVersion = "23.11";
+    packages = with pkgs; [
+      (config.lib.nixGL.wrap alacritty)
+    ];
+  };
+
+  programs.home-manager.enable = true;
+
+  xdg.configFile."environment.d/envvars.conf".text = ''
+    PATH="$HOME/.nix-profile/bin:$PATH"
+  '';
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = config.lib.nixGL.wrap pkgs.hyprland;
+    settings = {
+      general = {
+        gaps_in = 0;
+        gaps_out = 0;
+        border_size = 20;
+      };
+      
+      env = [
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+        "GDK_BACKEND,wayland,x11,*"
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "CLUTTER_BACKEND,wayland"
+        "MOZ_ENABLE_WAYLAND,1"
+      ];
+      
+      bind = [
+        # Terminal options
+        "SUPER, Return, exec, /home/irage/.nix-profile/bin/alacritty"
+        "SUPER, T, exec, /usr/bin/kitty"
+        "SUPER SHIFT, Return, exec, /usr/bin/gnome-terminal"
+        
+        # Applications
+        "SUPER, B, exec, /usr/bin/firefox"
+        "SUPER, C, exec, /usr/bin/google-chrome"
+        "SUPER, D, exec, /usr/bin/wofi --show drun"
+        "SUPER, Space, exec, /usr/bin/wofi --show run"
+        
+        # Jump to applications (focus if exists, launch if not)
+        "SUPER ALT, C, exec, hyprctl dispatch focuswindow class:^google-chrome$ || /usr/bin/google-chrome"
+        "SUPER ALT, B, exec, hyprctl dispatch focuswindow class:^firefox$ || /usr/bin/firefox"
+        "SUPER ALT, T, exec, hyprctl dispatch focuswindow class:^Alacritty$ || /home/irage/.nix-profile/bin/alacritty"
+        "SUPER ALT, G, exec, hyprctl dispatch focuswindow class:^gnome-terminal-server$ || /usr/bin/gnome-terminal"
+        
+        # Cycle through windows of same class
+        "SUPER CTRL, C, exec, hyprctl dispatch cyclenext class:^google-chrome$"
+        "SUPER CTRL, T, exec, hyprctl dispatch cyclenext class:^Alacritty$"
+        "SUPER CTRL, G, exec, hyprctl dispatch cyclenext class:^gnome-terminal-server$"
+        
+        # Window management
+        "SUPER, Q, killactive"
+        "SUPER SHIFT, E, exit"
+        "SUPER, V, togglefloating"
+        "SUPER, F, fullscreen"
+        
+        # Focus
+        "SUPER, h, movefocus, l"
+        "SUPER, l, movefocus, r"
+        "SUPER, k, movefocus, u"
+        "SUPER, j, movefocus, d"
+        
+        # Move windows
+        "SUPER SHIFT, h, movewindow, l"
+        "SUPER SHIFT, l, movewindow, r"
+        "SUPER SHIFT, k, movewindow, u"
+        "SUPER SHIFT, j, movewindow, d"
+        
+        # Workspaces
+        "SUPER, 1, workspace, 1"
+        "SUPER, 2, workspace, 2"
+        "SUPER, 3, workspace, 3"
+        "SUPER, 4, workspace, 4"
+        "SUPER, 5, workspace, 5"
+        "SUPER, 6, workspace, 6"
+        "SUPER, 7, workspace, 7"
+        "SUPER, 8, workspace, 8"
+        "SUPER, 9, workspace, 9"
+        "SUPER, 0, workspace, 10"
+        
+        # Move to workspace
+        "SUPER SHIFT, 1, movetoworkspace, 1"
+        "SUPER SHIFT, 2, movetoworkspace, 2"
+        "SUPER SHIFT, 3, movetoworkspace, 3"
+        "SUPER SHIFT, 4, movetoworkspace, 4"
+        "SUPER SHIFT, 5, movetoworkspace, 5"
+        "SUPER SHIFT, 6, movetoworkspace, 6"
+        "SUPER SHIFT, 7, movetoworkspace, 7"
+        "SUPER SHIFT, 8, movetoworkspace, 8"
+        "SUPER SHIFT, 9, movetoworkspace, 9"
+        "SUPER SHIFT, 0, movetoworkspace, 10"
+      ];
+      
+      bindm = [
+        # Mouse bindings
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
+      ];
+    };
+  };
+}

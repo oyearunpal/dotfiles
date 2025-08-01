@@ -20,7 +20,7 @@ sudo apt update && sudo apt upgrade -y
 log_status $? "System update completed"
 
 # Install required packages (including gcc, g++ for C++ builds)
-sudo apt install -y tmux git cmake ninja-build docker.io curl wget python3-pip google-chrome-stable htop npm \
+sudo apt install -y tmux git cmake ninja-build docker.io curl wget python3-pip google-chrome-stable htop npm wmctrl \
     gcc g++ meson build-essential python3.12-venv
 
 log_status $? "Required packages installed"
@@ -124,6 +124,7 @@ else
     echo -e "${YELLOW}Chrome configuration already exists. Skipping update.${NC}"
 fi
 gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+gsettings set org.gnome.mutter workspaces-only-on-primary false # To make workspaces switch all monitor as well
 
 # Install Vimium for Chrome via extension management or via their site:
 # https://chrome.google.com/webstore/detail/vimium/kdckgpopklljmjmijlmjlbbhfclgnpnm
