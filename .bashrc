@@ -200,3 +200,6 @@ solt ()
 [ -f ~/.bash_function ] && source ~/.bash_function
 [ -f ~/.bash_completion ] && source ~/.bash_completion
 
+
+# opencode
+export PATH=/home/irage/.opencode/bin:$PATH:/.local/bin

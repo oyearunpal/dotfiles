@@ -65,6 +65,7 @@
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
       background_opacity = "0.9";
+      term = "xterm-color";
       # Catppuccin Mocha theme
       foreground = "#cdd6f4";
       background = "#1e1e2e";
@@ -92,7 +93,7 @@
 
   # Waybar configuration for Hyprland
   programs.waybar = {
-    enable = true;
+    enable = false;
     settings = {
       mainBar = {
         layer = "top";
@@ -100,91 +101,26 @@
         height = 30;
         spacing = 4;
 
-        modules-left = [ "hyprland/workspaces" "hyprland/window" ];
+        modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "cpu" "memory" "tray" ];
+        modules-right = [ "cpu" "memory" ];
 
         "hyprland/workspaces" = {
-          disable-scroll = true;
-          all-outputs = false;  # Show only current monitor's workspaces
-          warp-on-scroll = false;
-          format = "{icon}";
-          format-icons = {
-            "1" = "1:Term";
-            "2" = "2:Web";
-            "3" = "3:Dev";
-            "4" = "4";
-            "5" = "5";
-            "6" = "6:Chrome";
-            "7" = "7";
-            "8" = "8";
-            "9" = "9:Chat";
-            "10" = "10:Media";
-            "11" = "11";
-            "12" = "12";
-            "13" = "13";
-            "14" = "14";
-            "15" = "15";
-            "16" = "16";
-            "17" = "17";
-            "18" = "18";
-            "19" = "19";
-            "20" = "20";
-            urgent = "";
-            focused = "";
-            default = "";
-          };
-          persistent-workspaces = {
-            "DP-1" = [ 1 2 3 4 5 ];
-            "DP-2" = [ 6 7 8 9 10 ];
-          };
-        };
-
-        "hyprland/window" = {
-          format = "{}";
-          separate-outputs = true;
-          max-length = 50;
-        };
-
-        tray = {
-          spacing = 10;
+          format = "{name}";
         };
 
         clock = {
-          timezone = "America/New_York";
-          format = "{:%H:%M %Y-%m-%d}";
-          format-alt = "{:%A, %B %d, %Y}";
-          tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+          format = "{:%H:%M}";
         };
 
         cpu = {
           format = "CPU {usage}%";
-          tooltip = false;
           interval = 1;
         };
 
         memory = {
           format = "RAM {}%";
           interval = 1;
-        };
-
-        network = {
-          format-wifi = "WiFi {signalStrength}%";
-          format-ethernet = "Eth {ipaddr}";
-          tooltip-format = "{ifname} via {gwaddr}";
-          format-linked = "{ifname} (No IP)";
-          format-disconnected = "Disconnected";
-          format-alt = "{ifname}: {ipaddr}/{cidr}";
-        };
-
-        pulseaudio = {
-          format = "Vol {volume}%";
-          format-bluetooth = "Vol {volume}% ";
-          format-bluetooth-muted = "Muted ";
-          format-muted = "Muted";
-          format-source = "{volume}% ";
-          format-source-muted = "";
-          on-click = "pavucontrol";
         };
       };
     };
@@ -194,15 +130,14 @@
         border: none;
         border-radius: 0;
         font-family: "JetBrainsMono Nerd Font";
-        font-size: 12px;
+        font-size: 14px;
         min-height: 0;
       }
 
       window#waybar {
-        background-color: rgba(30, 30, 46, 0.95);
+        background-color: #1e1e2e;
         color: #cdd6f4;
-        transition-property: background-color;
-        transition-duration: 0.5s;
+        border-bottom: 2px solid #89b4fa;
       }
 
       #workspaces button {
@@ -226,15 +161,13 @@
         color: #1e1e2e;
       }
 
-      #window,
       #clock,
       #cpu,
-      #memory,
-      #network,
-      #pulseaudio,
-      #tray {
+      #memory {
         padding: 0 10px;
         color: #cdd6f4;
+        background-color: #313244;
+        margin: 2px;
       }
 
       #cpu {
@@ -276,12 +209,14 @@
       "$terminal" = "kitty";
       "$menu" = "rofi -show drun";
 
-      # Monitor configuration - adjust names/resolutions for your setup
+      # Monitor configuration - adjusted for actual HDMI monitors
       monitor = [
-        # Primary monitor (left) - adjust name and resolution as needed
-        "DP-1,1920x1080@60,0x0,1"
-        # Secondary monitor (right) - adjust name and resolution as needed  
-        "DP-2,1920x1080@60,1920x0,1"
+        # Primary monitor (left) - HDMI-A-1
+        "HDMI-A-1,1920x1080@60,0x0,1"
+        # Secondary monitor (right) - HDMI-A-2
+        "HDMI-A-2,1920x1080@60,1920x0,1"
+        # Disable virtual monitors that interfere with Waybar
+        "WAYLAND-1,disable"
         # Fallback for any other monitors
         ",preferred,auto,1"
       ];
@@ -311,6 +246,7 @@
         kb_options = "caps:escape";
         follow_mouse = 1;
         sensitivity = 0;
+        numlock_by_default = true;
       };
 
       # Minimal decorations for performance
@@ -385,6 +321,7 @@
         # Window management
         "$mod, Space, togglefloating"
         "$mod, F, fullscreen, 0"
+        "$mod SHIFT, F, fullscreen, 1"
         "$mod, P, pseudo"
         "$mod, O, togglesplit"
 
@@ -424,18 +361,18 @@
         "$mod CTRL, j, resizeactive, 0 40"
 
         # Screenshots
-        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
-        "$mod, Print, exec, grim - | wl-copy"
+        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy && wl-paste > ~/Pictures/Screenshots/Screenshot-$(date +%F_%T).png | dunstify \"Screenshot of the region taken\" -t 1000"
+        "SHIFT, Print, exec, grim - | wl-copy && wl-paste > ~/Pictures/Screenshots/Screenshot-$(date +%F_%T).png | dunstify \"Screenshot of whole screen taken\" -t 1000"
 
         # Clipboard history
         "$mod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-        
+
         # Monitor switching
         "$mod, comma, focusmonitor, l"
         "$mod, period, focusmonitor, r"
         "$mod SHIFT, comma, movewindow, mon:l"
         "$mod SHIFT, period, movewindow, mon:r"
-        
+
         # Workspace movement between monitors
         "$mod ALT, comma, moveworkspacetomonitor, current l"
         "$mod ALT, period, moveworkspacetomonitor, current r"
@@ -466,48 +403,51 @@
       # Workspace assignments for dual monitor setup
       workspace = [
         # Primary monitor (left) - workspaces 1-5
-        "1, monitor:DP-1"
-        "2, monitor:DP-1" 
-        "3, monitor:DP-1"
-        "4, monitor:DP-1"
-        "5, monitor:DP-1"
+        "1, monitor:HDMI-A-1"
+        "2, monitor:HDMI-A-1"
+        "3, monitor:HDMI-A-1"
+        "4, monitor:HDMI-A-1"
+        "5, monitor:HDMI-A-1"
         # Secondary monitor (right) - workspaces 6-10
-        "6, monitor:DP-2"
-        "7, monitor:DP-2"
-        "8, monitor:DP-2" 
-        "9, monitor:DP-2"
-        "10, monitor:DP-2"
+        "6, monitor:HDMI-A-2"
+        "7, monitor:HDMI-A-2"
+        "8, monitor:HDMI-A-2"
+        "9, monitor:HDMI-A-2"
+        "10, monitor:HDMI-A-2"
         # Extended workspaces 11-20 for Alt+Num bindings
-        "11, monitor:DP-1"
-        "12, monitor:DP-1"
-        "13, monitor:DP-1"
-        "14, monitor:DP-1"
-        "15, monitor:DP-1"
-        "16, monitor:DP-2"
-        "17, monitor:DP-2"
-        "18, monitor:DP-2"
-        "19, monitor:DP-2"
-        "20, monitor:DP-2"
+        "11, monitor:HDMI-A-1"
+        "12, monitor:HDMI-A-1"
+        "13, monitor:HDMI-A-1"
+        "14, monitor:HDMI-A-1"
+        "15, monitor:HDMI-A-1"
+        "16, monitor:HDMI-A-2"
+        "17, monitor:HDMI-A-2"
+        "18, monitor:HDMI-A-2"
+        "19, monitor:HDMI-A-2"
+        "20, monitor:HDMI-A-2"
       ];
 
-      # Window rules for productivity
+      # Window rules for productivity  
       windowrulev2 = [
+        # Waybar rules
+        "float,class:^(waybar)$"
+        "pin,class:^(waybar)$"
         # Primary monitor applications (workspaces 1-5)
         # Terminals - Workspace 1 (left monitor)
         "workspace 1,class:^(kitty)$"
         "workspace 1,class:^(Alacritty)$"
 
-        # Browsers - Workspace 2 (left monitor)  
+        # Browsers - Workspace 2 (left monitor)
         "workspace 2,class:^(firefox)$"
         "workspace 6,class:^(google-chrome)$"  # Chrome on right monitor
 
         # Development - Workspace 3 (left monitor)
         "workspace 3,title:^.*nvim.*$"
-        
+
         # Communication - Workspace 9 (right monitor)
         "workspace 9,class:^(discord)$"
         "workspace 9,class:^(slack)$"
-        
+
         # Media - Workspace 10 (right monitor)
         "workspace 10,class:^(spotify)$"
         "workspace 10,class:^(vlc)$"
@@ -521,7 +461,7 @@
 
       # Auto-start applications
       exec-once = [
-        "waybar"
+        "sleep 3 && waybar --config /tmp/ultra-simple.json --style /tmp/ultra-simple.css"
         "dunst"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"

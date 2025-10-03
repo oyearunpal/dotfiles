@@ -86,3 +86,4 @@ The `validate-config.sh` script provides comprehensive testing:
 - Workspace 1: Terminals, 2: Browsers, 3: Development, 4: Discord, 5: Spotify
 - Caps Lock mapped to Escape
 - Custom application jumping and cycling keybindings (Super+Alt+[key])
+- You can refer wiki for configuration on https://wiki.hypr.land/Nix/Hyprland-on-Home-Manager/
